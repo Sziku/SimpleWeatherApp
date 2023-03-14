@@ -9,10 +9,18 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class WeatherService {
 
-    final RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
+    private final String baseURL = "https://api.openweathermap.org/data/2.5/weather?q=";
     @Value("${apikey}")
     private String apikey;
+
+    private final String city = "Szeged";
+
+    private final String units = "metric";
+
+    private final String language = "hu";
+
 
     @Autowired
     public WeatherService(RestTemplate restTemplate) {
@@ -22,13 +30,19 @@ public class WeatherService {
 
     public WeatherResponse getWeatherResponse() {
         return restTemplate.getForObject(
-                "https://api.openweathermap.org/data/2.5/weather?q=Szeged&appid=" + apikey + "&units=metric&lang=hu", WeatherResponse.class);
+                baseURL + city + "&appid=" + apikey + "&units=" + units + "&lang=" + language, WeatherResponse.class);
     }
 
 
     public SimpleWeatherResponse getSimpleWeatherResponse() {
         WeatherResponse weatherResponse = restTemplate.getForObject(
-                "https://api.openweathermap.org/data/2.5/weather?q=Szeged&appid=" + apikey + "&units=metric&lang=hu", WeatherResponse.class);
+                baseURL + this.city + "&appid=" + apikey + "&units=" + units + "&lang=" + language, WeatherResponse.class);
+        return new SimpleWeatherResponse(weatherResponse);
+    }
+
+    public SimpleWeatherResponse getSimpleWeatherResponse(String city) {
+        WeatherResponse weatherResponse = restTemplate.getForObject(
+                baseURL + city + "&appid=" + apikey + "&units=" + units + "&lang=" + language, WeatherResponse.class);
         return new SimpleWeatherResponse(weatherResponse);
     }
 }

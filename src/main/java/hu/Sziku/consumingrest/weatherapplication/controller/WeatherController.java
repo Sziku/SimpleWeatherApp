@@ -5,6 +5,7 @@ import hu.Sziku.consumingrest.weatherapplication.responsmodel.WeatherResponse;
 import hu.Sziku.consumingrest.weatherapplication.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,6 +28,11 @@ public class WeatherController {
     @GetMapping("api/weather2")
     public SimpleWeatherResponse getWeather2(){
         return weatherService.getSimpleWeatherResponse();
+    }
+
+    @GetMapping("api/weather2/{city}")
+    public SimpleWeatherResponse getLocalWeather(@PathVariable("city") String city){
+        return weatherService.getSimpleWeatherResponse(city);
     }
 
 }

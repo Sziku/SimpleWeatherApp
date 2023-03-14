@@ -1,4 +1,4 @@
-package com.example.consumingrest;
+package hu.Sziku.consumingrest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,6 +1,6 @@
-package com.example.consumingrest;
+package hu.Sziku.consumingrest;
 
-import jakarta.websocket.server.PathParam;
+import hu.Sziku.consumingrest.weatherapplication.responsmodel.WeatherResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,15 +10,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
-@SpringBootApplication
-public class ConsumingRestApplication {
+@SpringBootApplication //(scanBasePackages = {"responsmodel"})
+public class WeatherApplication {
 	@Value("${apikey}")
 	private String apikey;
 
-	private static final Logger log = LoggerFactory.getLogger(ConsumingRestApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(WeatherApplication.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(ConsumingRestApplication.class, args);
+		SpringApplication.run(WeatherApplication.class, args);
 	}
 
 	@Bean
@@ -29,9 +29,11 @@ public class ConsumingRestApplication {
 	@Bean
 	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
 		return args -> {
-			WeatherRepo weatherRepo = restTemplate.getForObject(
-					"https://api.openweathermap.org/data/2.5/weather?q=Szeged&appid=" + apikey + "&units=metric&lang=hu", WeatherRepo.class);
-			log.info(weatherRepo.toString());
+			WeatherResponse weatherResponse = restTemplate.getForObject(
+					"https://api.openweathermap.org/data/2.5/weather?q=Szeged&appid=" + apikey + "&units=metric&lang=hu", WeatherResponse.class);
+			log.info(weatherResponse.toString());
 		};
 	}
+
+
 }

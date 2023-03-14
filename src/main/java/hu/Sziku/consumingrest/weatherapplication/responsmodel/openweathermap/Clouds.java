@@ -1,7 +1,7 @@
-package com.example.consumingrest.weatherapi;
+package hu.Sziku.consumingrest.weatherapplication.responsmodel.openweathermap;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record Coord(double lon, double lat) {
+public record Clouds(int all){
 }
